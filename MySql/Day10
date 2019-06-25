@@ -1,0 +1,25 @@
+/* Create Relation In Table Using FOREIGN KEY */
+
+CREATE TABLE post(
+id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+created_date_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+last_update_date_time DATETIME on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+title VARCHAR(100) NOT NULL,
+description VARCHAR(200) NOT NULL,
+user_id INT UNSIGNED,
+FOREIGN KEY(user_id) REFERENCES users(id)
+);
+
+
+/* JOIN in table */
+
+
+SELECT * FROM post JOIN users ON post.user_id = users.id;
+
+SELECT title, description FROM post JOIN users ON users.id = post.user_id WHERE user_id=1;
+
+SELECT title,description,users.first_name FROM post JOIN users ON post.user_id = users.id WHERE users.first_name='vishal'
+
+SELECT COUNT(post.id), users.first_name FROM post JOIN users ON post.user_id = users.id GROUP BY user_id
+
+SELECT title,description,users.first_name FROM post LEFT JOIN users ON post.user_id = users.id
