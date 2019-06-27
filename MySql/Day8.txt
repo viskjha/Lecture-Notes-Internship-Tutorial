@@ -13,6 +13,6 @@ last_update_date_time DATETIME on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURR
 PRIMARY KEY(id)
 );
 INSERT INTO users (first_name, last_name, email, password) VALUES 
-('Watan', 'Agarwal', 'watanagarwal@gmail.com', password'),
-('Ayush', 'Agarwal', 'ayush@gmail.com', 'password')
+('vishal', 'Jha', 'vishal@gmail.com', password'),
+('Aditya', 'Kumar', 'Aditya@gmail.com', 'password')
 ;
