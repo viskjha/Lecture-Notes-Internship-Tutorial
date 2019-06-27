@@ -23,3 +23,10 @@ SELECT title,description,users.first_name FROM post JOIN users ON post.user_id =
 SELECT COUNT(post.id), users.first_name FROM post JOIN users ON post.user_id = users.id GROUP BY user_id
 
 SELECT title,description,users.first_name FROM post LEFT JOIN users ON post.user_id = users.id
+<<<<<<< HEAD
+=======
+
+SELECT title,description,users.first_name FROM post RIGHT JOIN users ON post.user_id = users.id
+
+SELECT users.first_name, count(post.title) as postscount FROM post JOIN users ON users.id = post.user_id GROUP BY user_id HAVING postscount > 1
+>>>>>>> mysql
