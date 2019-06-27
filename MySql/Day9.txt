@@ -1,0 +1,12 @@
+ALTER TABLE users CHANGE last_name last_name VARCHAR(50);
+SELECT * FROM users ORDER BY id DESC;
+UPDATE users SET password='new_password' WHERE email='watana@mindfiresolutions.com'
+DELETE FROM users WHERE email='watan@mindfiresolutions.com'
+SELECT MAX(id) FROM users
+SELECT MIN(id) FROM users
+SELECT COUNT(id) FROM users
+SELECT SUM(id) FROM users
+SELECT AVG(id) FROM users
+SELECT * FROM users WHERE first_name LIKE 'w%'
+SELECT * FROM users WHERE first_name LIKE '%n'
+SELECT * FROM users WHERE first_name LIKE '%a%'
