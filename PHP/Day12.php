@@ -16,7 +16,7 @@
      {
          if(empty($_POST['fname']))
          {
-             echo "First Name must be filled<br>";
+             $fnameErr = "First Name must be filled";
          }
          else {
              $fname = $_POST['fname'];
@@ -24,7 +24,7 @@
 
          if(empty($_POST['lname']))
          {
-             echo "Last Name must be filled<br>";
+             $lnameErr = "Last Name must be filled";
          }
          else {
              $lname = $_POST['lname'];
@@ -32,7 +32,7 @@
 
          if(empty($_POST['email']))
          {
-             echo "Email must be filled<br>";
+             $emailErr = "Email must be filled";
          }
          else {
              $email = $_POST['email'];
