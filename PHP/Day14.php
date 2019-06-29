@@ -1,40 +1,28 @@
+<?php
+   // start session
+   session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Day13</title>
+    <title>Day14</title>
 </head>
 <body>
+     
 
-
+     
     <!-- validation and fill value -->
  <?php
 
- $fnameErr = $lnameErr = $emailErr =$passErr="";
- $fname = $lname= $email = $pass="";
+ $emailErr =$passErr="";
+ $email = $pass="";
  $status=true;
      if(!empty($_POST))
      {
-         if(empty($_POST['fname']))
-         {
-             $fnameErr = "First Name must be filled";
-             $status=false;
-         }
-         else {
-             $fname = $_POST['fname'];
-         }
-
-         if(empty($_POST['lname']))
-         {
-             $lnameErr = "Last Name must be filled";
-             $status=false;
-         }
-         else {
-             $lname = $_POST['lname'];
-         }
-
+        
          if(empty($_POST['email']))
          {
              $emailErr = "Email must be filled";
@@ -71,15 +59,17 @@
          }
          
          // Insert Into Database
-         $sql="INSERT INTO users (first_name, last_name, email, password)
-               values('$fname','$lname','$email','$pass')";
-               if($conn->query($sql))
+         $sql="SELECT id,first_name,last_name,email FROM users WHERE email='$email' AND password='$pass'";
+         $result = $conn->query($sql);
+               if($result->num_rows > 0)
                {
-                   echo "Record Inser";
-                   header('Location:Day14.php');
+                   $record = $result->fetch_assoc();
+                   $_SESSION['loggedIn'] = true;
+                   $_SESSION['userDetail'] = $record;
+                   header('Location:profile.php');
                }
                else {
-                   echo "ERROR" . $sql . "<br>" .$conn->error;
+                   echo "Invalid Username and Password";
                }
                $conn -> close();
      }
@@ -90,11 +80,6 @@
 
 
     <form action="<?=$_SERVER['PHP_SELF'];?>" method="POST">
-        First Name:<input type="text" name="fname" value=<?php echo $fname; ?>> <br>
-        <p><?php echo $fnameErr; ?></p>
-
-        Last Name:<input type="text" name="lname" value="<?php echo $lname; ?>"><br>
-        <p><?php echo $lnameErr; ?></p>
 
         Email:<input type="email" name="email" value=<?php echo $email; ?>><br>
         <p><?php echo $emailErr; ?></p>
@@ -105,5 +90,6 @@
 
         <input type="submit" name="submit" value="submit">
     </form>
+    
 </body>
 </html>
