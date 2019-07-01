@@ -1,6 +1,9 @@
 <?php
    // start session
    session_start();
+	if($_SESSION['loggedIn'] !== true) {
+		header('Location: Day14.php');
+	}
 ?>
 
 <!DOCTYPE html>
@@ -9,23 +12,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Day14,Day15</title>
+    <title>Day14,Day15,Day16</title>
 </head>
-<body><h1>Profile page</h1>
+<body>
+    <!-- Fetch Data from another web page -->
+    <?php include 'db.php';?>
+
+    <h1>Profile page</h1>
 <?php
 
-    if($_SESSION['loggedIn']===true)
-    {
-        echo "welcome user<br>";
+    echo "welcome user<br>";
         
-                   echo $_SESSION['userDetail']['id']."<br>";
-                   echo $_SESSION['userDetail']['first_name']."<br>";
-                   echo $_SESSION['userDetail']['last_name']."<br>";
-                   echo $_SESSION['userDetail']['email']."<br><br>";
-    }
-    else {
-        header('Location: Day14.php');
-    }
+        echo $_SESSION['userDetail']['id']."<br>";
+        echo $_SESSION['userDetail']['first_name']."<br>";
+        echo $_SESSION['userDetail']['last_name']."<br>";
+        echo $_SESSION['userDetail']['email']."<br><br>";
       
  ?>
  <a href="logout.php">Logout</a><br><br>
@@ -39,6 +40,21 @@
  $title = $des="";
  $status=true;
  $id= $_SESSION['userDetail']['id'];
+ $postsResult="";
+
+ $servername="localhost";
+ $username="root";
+ $password="";
+ $db="blog_test";
+ $conn = new mysqli($servername, $username, $password, $db);
+
+ //Check Error
+         if($conn->connect_error)
+         {
+             die("Connection Failed: ". $conn->connect_error);
+         }
+
+
      if(!empty($_POST))
      {
         
@@ -59,30 +75,15 @@
          else {
              $des = $_POST['des'];
          }
-
-
-     //Connect To Database
-     $servername="localhost";
-     $username="root";
-     $password="";
-     $db="blog_test";
+     
 
      if($status)
      {
-         $conn = new mysqli($servername, $username, $password, $db);
-
-         //Check Error
-         if($conn->connect_error)
-         {
-             die("Connection Failed: ". $conn->connect_error);
-         }
-         
          // Insert Into Database
          $sql="INSERT INTO post (title, description, user_id)
                values('$title','$des', '$id')";
          $result = $conn->query($sql);
-               // Close Connection
-               $conn -> close();
+            
      }
 
      }
@@ -101,6 +102,22 @@
 
         <input type="submit" name="submit" value="submit">
     </form>
+
+
+    <?php
+    
+    $sql = "SELECT title, description FROM post INNER JOIN users ON post.user_id = users.id WHERE user_id = $id";
+	$postsResult = $conn->query($sql);
+
+    while($row = $postsResult->fetch_assoc())
+    {
+		echo "<div><h3>".$row["title"]."</h3>";
+		echo "<p>".$row["description"]."<p></div>";
+    }	
+    
+    $conn->close();
+    
+    ?>
     
 </body>
 </html>
