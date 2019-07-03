@@ -54,6 +54,30 @@
          }
 
 
+         // File related code
+         $target_dir = "uploads/";
+         $target_file = $target_dir . basename($_FILES["profileImage"]["name"]);
+         $fileStatus = true;
+
+         //get the image extension
+		$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+		if($imageFileType != "jpg" && $imageFileType != "png") {
+			$fileErr= "Only JPG and PNG images allowed";
+			$fileStatus = false;
+			$status = false;
+		}
+		
+		if($fileStatus){
+			if(move_uploaded_file($_FILES["profileImage"]["tmp_name"], $target_file)) {
+			$status = true;
+			//die("File uploaded");
+		} else {
+			$fileErr= "Issues in file upload";
+			$status = false;
+		}
+		}
+
+
      //Connect To Database
      $servername="localhost";
      $username="root";
@@ -71,8 +95,8 @@
          }
          
          // Insert Into Database
-         $sql="INSERT INTO users (first_name, last_name, email, password)
-               values('$fname','$lname','$email','$pass')";
+         $sql="INSERT INTO users (first_name, last_name, email, password, images)
+               values('$fname','$lname','$email','$pass', '$target_file')";
                if($conn->query($sql))
                {
                    echo "Record Inser";
@@ -89,7 +113,7 @@
  ?>
 
 
-    <form action="<?=$_SERVER['PHP_SELF'];?>" method="POST">
+    <form action="<?=$_SERVER['PHP_SELF'];?>" method="POST" enctype="multipart/form-data">
         First Name:<input type="text" name="fname" value=<?php echo $fname; ?>> <br>
         <p><?php echo $fnameErr; ?></p>
 
@@ -101,6 +125,8 @@
 
         Password:<input type="password" name="pass" value=<?php echo $pass; ?>><br>
         <p><?php echo $passErr; ?></p>
+
+        Images:<input type="file" name="profileImage"><br><br>
 
 
         <input type="submit" name="submit" value="submit">

@@ -12,7 +12,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Day14,Day15,Day16</title>
+    <title>Day14,Day15,Day16,Day17</title>
 </head>
 <body>
     <!-- Fetch Data from another web page -->
@@ -27,9 +27,12 @@
         echo $_SESSION['userDetail']['first_name']."<br>";
         echo $_SESSION['userDetail']['last_name']."<br>";
         echo $_SESSION['userDetail']['email']."<br><br>";
+        $imgs = $_SESSION['userDetail']['images'];
+        
       
  ?>
  <a href="logout.php">Logout</a><br><br>
+ <img src="<?php echo $imgs ?>" alt="">
 
  
 
